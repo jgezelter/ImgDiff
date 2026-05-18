@@ -12,7 +12,7 @@ import math
 
 num_bands = 40
 
-k_point_options = np.linspace(0,0.5*10**(-2),50)
+k_point_options = np.linspace(0,1.5*10**(-2),50)
 r_options = np.linspace(0,0.5,44)
 
 def expand_grid(data_dict):
@@ -61,7 +61,7 @@ geometry = [
 
 geometry_lattice = mp.Lattice(size = mp.Vector3(sx, sx, 20))
 
-resolution = 30
+resolution = 40
 
 
 
@@ -85,7 +85,7 @@ for i in range(num_bands):
     if i+1==1:
         mode_check[i]=1
     else:
-        if (10**3)*np.max(np.abs(u_[0:30,0:30,0:250]))< np.max(np.abs(u_[0:30,0:30,290:310])):
+        if 500*np.max(np.abs(u_[0:40,0:40,0:350]))< np.max(np.abs(u_[0:40,0:40,383:413])):
             mode_check[i]=1
 
 inter = np.multiply(test_freqs,mode_check)

@@ -2,7 +2,7 @@
 #SBATCH --job-name=square-lattice-bd
 #SBATCH --time=1:30:00
 #SBATCH --output=results/260518/band_diagram_blank/out/batch.%a.out
-#SBATCH --mem=2G
+#SBATCH --mem=5G
 #SBATCH --ntasks-per-node=1
 #SBATCH --constraint=genoa
 #SBATCH --array=0-2199
