@@ -1,0 +1,15 @@
+name: legume-env
+channels: 
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.12
+  - numpy
+  - pandas
+  - matplotlib
+  - scipy
+  - ipykernel
+  - pymeep
+  - pip
+  - pip: 
+    - legume-gme
