@@ -17,7 +17,7 @@ import sys
 import os
 
 def key_vals(r):
-    D=0.55
+    D=0.5
     epsr=12
     lattice = legume.Lattice("square")
     phc = legume.PhotCryst(lattice)
