@@ -54,31 +54,36 @@ def key_vals(r):
     aniso = (band_locs.mean(axis=1)**2).sum(axis=(1,2))
 
     chosen_band =abs(band_locs[aniso == min(aniso)][0])-band_locs[aniso == min(aniso)][0][0][0][0]
-    dist_to_band = abs(chosen_band).min(axis=(0,1))
+    dist_to_band = abs(band_locs).mean(axis=(1,2))
     ks = np.array(range(num_points)) * test_k/num_points
 
-    a = np.polyfit(ks, dist_to_band, deg=2)[0]
-    b = np.polyfit(ks, dist_to_band, deg=2)[1]
-    omega = band_locs[aniso == min(aniso)][0][0][0][0]
-    return omega, a,b, np.sqrt(min(aniso))
+    poly = np.polyfit(ks, dist_to_band.transpose(), deg=2)
+
+    a = poly[0]
+    b = poly[1]
+    omega = test_vals
+    return omega, a,b, np.sqrt(aniso)
 
 
 rs = np.linspace(0,0.5, 8000)
 
 index = int(sys.argv[1])
 
-data = np.ndarray((20,5))
+data = np.ndarray()
 
 for i in range(20):
     sub_index = i + 20*index
     r = rs[sub_index]
     omega, a, b, aniso = key_vals(r)
 
-    data[i][0] = r
-    data[i][1] = omega
-    data[i][2] = a
-    data[i][3] = b
-    data[i][4] = aniso
+    temp_data = np.ndarray((5,len(omega)))
+    temp_data[0] = r
+    temp_data[1] = omega
+    temp_data[2] = a
+    temp_data[3] = b
+    temp_data[4] = aniso
+
+    np.concatenate((data, temp_data.T))
 
 pd.DataFrame(data, columns = ["r", "omega", "a", "b", "aniso"]).to_csv(f"results/260521/band_diagram_optimization/raw/{index}.csv")
     
