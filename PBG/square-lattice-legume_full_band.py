@@ -69,7 +69,7 @@ rs = np.linspace(0,0.5, 8000)
 
 index = int(sys.argv[1])
 
-data = np.ndarray()
+data = np.ndarray((1,5))
 
 for i in range(20):
     sub_index = i + 20*index
@@ -83,8 +83,8 @@ for i in range(20):
     temp_data[3] = b
     temp_data[4] = aniso
 
-    np.concatenate((data, temp_data.T))
+    data = np.concatenate((data, temp_data.T))
 
-pd.DataFrame(data, columns = ["r", "omega", "a", "b", "aniso"]).to_csv(f"results/260521/band_diagram_optimization/raw/{index}.csv")
+pd.DataFrame(data, columns = ["r", "omega", "a", "b", "aniso"]).to_csv(f"results/260521/band_diagram_optimization_2/raw/{index}.csv")
     
     
