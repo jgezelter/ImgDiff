@@ -16,16 +16,15 @@ import math
 import sys
 import os
 
-def key_vals(r):
-    D=0.55
-    epsr=12
+def key_vals(r, eps, k_bound):
+    D=0.5
     lattice = legume.Lattice("square")
     phc = legume.PhotCryst(lattice)
-    phc.add_layer(d=D, eps_b=epsr)
-    phc.layers[-1].add_shape(legume.Circle(eps=1.0, r=r))
+    phc.add_layer(d=D, eps_b=1)
+    phc.layers[-1].add_shape(legume.Circle(eps=eps, r=r))
     gme = legume.GuidedModeExp(phc, gmax=6)
 
-    test_k = 0.03
+    test_k = k_bound
     num_points = 40
 
     path = lattice.bz_path([[0,0], [test_k,0], [test_k/np.sqrt(2), test_k/np.sqrt(2)], [0,0]], [num_points,1,num_points])
@@ -65,16 +64,19 @@ def key_vals(r):
     return omega, a,b, np.sqrt(aniso)
 
 
-rs = np.linspace(0,0.5, 8000)
+rs = np.linspace(0.0001,0.5, 8000)
 
 index = int(sys.argv[1])
+eps = float(sys.argv[2])
+k_bound = float(sys.argv[3])
+path = sys.argv[4]
 
-data = np.ndarray((1,5))
+data = np.zeros((1,5))
 
 for i in range(20):
     sub_index = i + 20*index
     r = rs[sub_index]
-    omega, a, b, aniso = key_vals(r)
+    omega, a, b, aniso = key_vals(r, eps, k_bound)
 
     temp_data = np.ndarray((5,len(omega)))
     temp_data[0] = r
@@ -85,6 +87,6 @@ for i in range(20):
 
     data = np.concatenate((data, temp_data.T))
 
-pd.DataFrame(data, columns = ["r", "omega", "a", "b", "aniso"]).to_csv(f"results/260521/band_diagram_optimization_2/raw/{index}.csv")
+pd.DataFrame(data, columns = ["r", "omega", "a", "b", "aniso"]).to_csv(f"{path}raw/{index}.csv")
     
     

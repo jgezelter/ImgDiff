@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=square-lattice-bd
 #SBATCH --time=1:30:00
-#SBATCH --output=results/260521/band_diagram_optimization_2/out/batch.%a.out
+#SBATCH --output=results/260522/band_diagram_optimization/out/batch.%a.out
 #SBATCH --mem=2G
 #SBATCH --ntasks-per-node=1
 #SBATCH --constraint=genoa
@@ -18,7 +18,7 @@ conda activate legume-env
 
 echo "Starting task $SLURM_ARRAY_TASK_ID"
 start_time=`date +%s`
-python square-lattice-legume_full_band.py $SLURM_ARRAY_TASK_ID
+python square-lattice-legume_full_band.py $SLURM_ARRAY_TASK_ID 11.696 0.03 results/260522/band_diagram_optimization/
 end_time=`date +%s`
 
 echo "task $SLURM_ARRAY_TASK_ID execution time was" `expr $end_time - $start_time` s.
